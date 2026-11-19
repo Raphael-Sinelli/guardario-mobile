@@ -9,6 +9,7 @@ import '../theme/app_theme.dart';
 import '../widgets/dialogo_login.dart';
 import '../widgets/selo_risco.dart';
 import 'tela_detalhe_alerta.dart';
+import 'tela_kit.dart';
 import 'tela_meus_relatos.dart';
 import 'tela_novo_relato.dart';
 
@@ -117,15 +118,6 @@ class _TelaInicioState extends State<TelaInicio> {
       SnackBar(
         content: Text('Relato enviado. Prioridade ${relato.prioridade} de 5.'),
         backgroundColor: AppTheme.corNormal,
-      ),
-    );
-  }
-
-  void _emBreve() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Esta tela chega nos próximos commits.'),
-        backgroundColor: AppTheme.azul,
       ),
     );
   }
@@ -382,7 +374,12 @@ class _TelaInicioState extends State<TelaInicio> {
             MaterialPageRoute(builder: (context) => const TelaMeusRelatos()),
           );
         }),
-        _atalho(Icons.medical_services_outlined, 'Kit de emergência', _emBreve),
+        _atalho(Icons.medical_services_outlined, 'Kit de emergência', () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TelaKit()),
+          );
+        }),
         _atalho(Icons.night_shelter, 'Abrigos', () {
           widget.irParaAba(2);
         }),
