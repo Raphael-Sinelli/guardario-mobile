@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_theme.dart';
+import 'tela_login.dart';
 
 // Primeira tela: logo e as duas formas de entrar no app.
-// Os botões ainda não navegam: o login e a casca de navegação entram nos
-// próximos commits.
+// O botão "Continuar sem conta" ainda não navega: a casca de navegação entra
+// no próximo commit.
 class TelaBoasVindas extends StatelessWidget {
   const TelaBoasVindas({super.key});
 
@@ -41,7 +42,12 @@ class TelaBoasVindas extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const TelaLogin()),
+                  );
+                },
                 child: const Text('Entrar'),
               ),
               const SizedBox(height: AppTheme.espacoM),
