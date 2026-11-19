@@ -74,26 +74,28 @@ void main() {
       expect(proximoNivelCm(330), 330);
     });
 
-    test('em 4 toques o risco passa por NORMAL, ATENÇÃO, ALERTA e EMERGÊNCIA',
-        () {
-      int nivel = 130;
-      int chuva = 8;
-      final sequencia = <NivelRisco>[calcularRisco(nivel, chuva, estacao)];
+    test(
+      'em 4 toques o risco passa por NORMAL, ATENÇÃO, ALERTA e EMERGÊNCIA',
+      () {
+        int nivel = 130;
+        int chuva = 8;
+        final sequencia = <NivelRisco>[calcularRisco(nivel, chuva, estacao)];
 
-      for (int toque = 1; toque <= 4; toque++) {
-        nivel = proximoNivelCm(nivel);
-        chuva = chuva + passoChuvaMmH;
-        sequencia.add(calcularRisco(nivel, chuva, estacao));
-      }
+        for (int toque = 1; toque <= 4; toque++) {
+          nivel = proximoNivelCm(nivel);
+          chuva = chuva + passoChuvaMmH;
+          sequencia.add(calcularRisco(nivel, chuva, estacao));
+        }
 
-      expect(sequencia, [
-        NivelRisco.normal, // 130 cm, 8 mm/h (início)
-        NivelRisco.atencao, // 170 cm, 20 mm/h
-        NivelRisco.atencao, // 210 cm, 32 mm/h
-        NivelRisco.alerta, // 250 cm, 44 mm/h
-        NivelRisco.emergencia, // 290 cm, 56 mm/h (chuva sobe o nível)
-      ]);
-    });
+        expect(sequencia, [
+          NivelRisco.normal, // 130 cm, 8 mm/h (início)
+          NivelRisco.atencao, // 170 cm, 20 mm/h
+          NivelRisco.atencao, // 210 cm, 32 mm/h
+          NivelRisco.alerta, // 250 cm, 44 mm/h
+          NivelRisco.emergencia, // 290 cm, 56 mm/h (chuva sobe o nível)
+        ]);
+      },
+    );
   });
 
   group('calcularPrioridade', () {
@@ -101,9 +103,14 @@ void main() {
       expect(calcularPrioridade(TipoRelato.pessoaIlhada, NivelRisco.normal), 5);
       expect(calcularPrioridade(TipoRelato.deslizamento, NivelRisco.normal), 4);
       expect(calcularPrioridade(TipoRelato.rioSubindo, NivelRisco.normal), 3);
-      expect(calcularPrioridade(TipoRelato.alagamentoVia, NivelRisco.normal), 3);
       expect(
-          calcularPrioridade(TipoRelato.bueiroEntupido, NivelRisco.normal), 2);
+        calcularPrioridade(TipoRelato.alagamentoVia, NivelRisco.normal),
+        3,
+      );
+      expect(
+        calcularPrioridade(TipoRelato.bueiroEntupido, NivelRisco.normal),
+        2,
+      );
       expect(calcularPrioridade(TipoRelato.outro, NivelRisco.normal), 1);
     });
 
@@ -114,14 +121,17 @@ void main() {
     test('área em ALERTA ou EMERGÊNCIA soma 1', () {
       expect(calcularPrioridade(TipoRelato.rioSubindo, NivelRisco.alerta), 4);
       expect(
-          calcularPrioridade(TipoRelato.bueiroEntupido, NivelRisco.emergencia),
-          3);
+        calcularPrioridade(TipoRelato.bueiroEntupido, NivelRisco.emergencia),
+        3,
+      );
       expect(calcularPrioridade(TipoRelato.outro, NivelRisco.alerta), 2);
     });
 
     test('o teto é 5', () {
       expect(
-          calcularPrioridade(TipoRelato.pessoaIlhada, NivelRisco.emergencia), 5);
+        calcularPrioridade(TipoRelato.pessoaIlhada, NivelRisco.emergencia),
+        5,
+      );
       expect(calcularPrioridade(TipoRelato.deslizamento, NivelRisco.alerta), 5);
     });
   });
@@ -131,8 +141,10 @@ void main() {
 
     test('risco abaixo de ALERTA não cria alerta', () {
       final alertas = <Alerta>[];
-      expect(atualizarAlertas(alertas, NivelRisco.atencao, estacao, agora),
-          isNull);
+      expect(
+        atualizarAlertas(alertas, NivelRisco.atencao, estacao, agora),
+        isNull,
+      );
       expect(alertas, isEmpty);
     });
 
@@ -147,22 +159,30 @@ void main() {
 
     test('não cria outro quando já existe alerta ativo de nível igual', () {
       final alertas = <Alerta>[alertaAtivo(1, NivelRisco.alerta)];
-      expect(atualizarAlertas(alertas, NivelRisco.alerta, estacao, agora),
-          isNull);
+      expect(
+        atualizarAlertas(alertas, NivelRisco.alerta, estacao, agora),
+        isNull,
+      );
       expect(alertas.length, 1);
     });
 
     test('não cria alerta menor quando já existe um maior ativo', () {
       final alertas = <Alerta>[alertaAtivo(1, NivelRisco.emergencia)];
-      expect(atualizarAlertas(alertas, NivelRisco.alerta, estacao, agora),
-          isNull);
+      expect(
+        atualizarAlertas(alertas, NivelRisco.alerta, estacao, agora),
+        isNull,
+      );
       expect(alertas.first.ativo, isTrue);
     });
 
     test('EMERGÊNCIA encerra o ALERTA ativo e cria um alerta novo', () {
       final alertas = <Alerta>[alertaAtivo(1, NivelRisco.alerta)];
-      final novo =
-          atualizarAlertas(alertas, NivelRisco.emergencia, estacao, agora);
+      final novo = atualizarAlertas(
+        alertas,
+        NivelRisco.emergencia,
+        estacao,
+        agora,
+      );
 
       expect(novo, isNotNull);
       expect(novo!.nivel, NivelRisco.emergencia);
