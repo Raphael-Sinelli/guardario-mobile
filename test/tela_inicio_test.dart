@@ -58,6 +58,14 @@ void main() {
     expect(find.text('290 cm'), findsOneWidget);
     expect(find.text('EMERGÊNCIA'), findsOneWidget);
     expect(find.text('ALERTA ATIVO: EMERGÊNCIA'), findsOneWidget);
+
+    // O aviso do alerta novo não fica preso atrás do aviso anterior
+    await tester.pump(const Duration(seconds: 1));
+    expect(
+      find.text('Novo alerta: EMERGÊNCIA em Jardim Pantanal'),
+      findsOneWidget,
+    );
+    expect(find.text('Novo alerta: ALERTA em Jardim Pantanal'), findsNothing);
   });
 
   testWidgets('Reiniciar simulação volta ao começo', (tester) async {

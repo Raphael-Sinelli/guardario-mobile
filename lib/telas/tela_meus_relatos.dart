@@ -38,6 +38,7 @@ class _TelaMeusRelatosState extends State<TelaMeusRelatos> {
     setState(() {
       relatos.insert(0, relato);
     });
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Relato enviado. Prioridade ${relato.prioridade} de 5.'),
@@ -76,6 +77,8 @@ class _TelaMeusRelatosState extends State<TelaMeusRelatos> {
       appBar: AppBar(title: const Text('Meus relatos')),
       body: corpo,
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppTheme.azul,
+        foregroundColor: Colors.white,
         onPressed: _novoRelato,
         icon: const Icon(Icons.add),
         label: const Text('Novo relato'),

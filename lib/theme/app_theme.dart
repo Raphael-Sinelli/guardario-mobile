@@ -127,12 +127,16 @@ class AppTheme {
         unselectedItemColor: Color(0xFF546E7A),
         type: BottomNavigationBarType.fixed,
         showUnselectedLabels: true,
-        selectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        selectedLabelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
+        ),
         unselectedLabelStyle: TextStyle(fontSize: 14),
       ),
 
       chipTheme: ChipThemeData(
-        labelStyle: const TextStyle(fontSize: 16),
+        // Sem a cor o texto do chip saía quase branco e não dava para ler
+        labelStyle: const TextStyle(fontSize: 16, color: Color(0xFF263238)),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         backgroundColor: Colors.white,
         selectedColor: const Color(0xFFD6EAF7),

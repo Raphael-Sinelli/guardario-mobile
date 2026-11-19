@@ -63,6 +63,7 @@ class _TelaLoginState extends State<TelaLogin> {
 
     if (email == usuarioTeste.email && senha == senhaTeste) {
       usuarioLogado = usuarioTeste;
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Bem-vinda, ${usuarioTeste.nome.split(' ').first}!'),
@@ -76,6 +77,7 @@ class _TelaLoginState extends State<TelaLogin> {
         (rota) => rota.isFirst,
       );
     } else {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('E-mail ou senha incorretos.'),
@@ -139,10 +141,7 @@ class _TelaLoginState extends State<TelaLogin> {
                 validator: _validarSenha,
               ),
               const SizedBox(height: AppTheme.espacoG),
-              ElevatedButton(
-                onPressed: _entrar,
-                child: const Text('Entrar'),
-              ),
+              ElevatedButton(onPressed: _entrar, child: const Text('Entrar')),
               const SizedBox(height: AppTheme.espacoG),
               Card(
                 child: Padding(

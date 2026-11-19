@@ -51,7 +51,8 @@ class _TelaNovoRelatoState extends State<TelaNovoRelato> {
   String? _validarDescricao(String? valor) {
     final descricao = (valor ?? '').trim();
     if (descricao.length < 10) {
-      return 'Descreva com pelo menos 10 caracteres';
+      // Curta de propósito: ao lado do contador 0/500 uma frase longa é cortada
+      return 'Mínimo de 10 caracteres';
     }
     if (descricao.length > 500) {
       return 'Use no máximo 500 caracteres';
@@ -71,6 +72,7 @@ class _TelaNovoRelatoState extends State<TelaNovoRelato> {
   Future<void> _enviar() async {
     // validate() roda todos os validators e mostra os erros em vermelho
     if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Corrija os campos em vermelho para enviar.'),

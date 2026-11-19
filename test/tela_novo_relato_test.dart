@@ -28,7 +28,7 @@ void main() {
 
     expect(find.text('Escolha o tipo do relato'), findsOneWidget);
     expect(find.text('Informe o bairro'), findsOneWidget);
-    expect(find.text('Descreva com pelo menos 10 caracteres'), findsOneWidget);
+    expect(find.text('Mínimo de 10 caracteres'), findsOneWidget);
     expect(
       find.text('Corrija os campos em vermelho para enviar.'),
       findsOneWidget,

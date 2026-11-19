@@ -56,6 +56,8 @@ class _TelaInicioState extends State<TelaInicio> {
 
     if (novoAlerta != null) {
       final corTexto = corTextoDoNivel(novoAlerta.nivel);
+      // Esconde o aviso anterior para o novo aparecer na hora, sem esperar fila
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: corDoNivel(novoAlerta.nivel),
@@ -74,13 +76,6 @@ class _TelaInicioState extends State<TelaInicio> {
                 ),
               ),
             ],
-          ),
-          action: SnackBarAction(
-            label: 'VER',
-            textColor: corTexto,
-            onPressed: () {
-              widget.irParaAba(1);
-            },
           ),
         ),
       );
@@ -114,6 +109,7 @@ class _TelaInicioState extends State<TelaInicio> {
     setState(() {
       relatos.insert(0, relato);
     });
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Relato enviado. Prioridade ${relato.prioridade} de 5.'),
@@ -129,9 +125,17 @@ class _TelaInicioState extends State<TelaInicio> {
         title: const Text('GuardaRio'),
         automaticallyImplyLeading: false,
         actions: [
+          // Círculo branco: o logo é azul e some em cima do azul do AppBar
           Padding(
             padding: const EdgeInsets.only(right: AppTheme.espacoM),
-            child: Image.asset('assets/logo.png', width: 36, height: 36),
+            child: CircleAvatar(
+              radius: 20,
+              backgroundColor: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Image.asset('assets/logo.png'),
+              ),
+            ),
           ),
         ],
       ),
@@ -262,26 +266,21 @@ class _TelaInicioState extends State<TelaInicio> {
   }
 
   Widget _botoesDaSimulacao() {
-    return Row(
+    // Um botão embaixo do outro, cada um com a largura toda: o texto cabe
+    // numa linha mesmo em telas estreitas
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(
-          flex: 3,
-          child: ElevatedButton.icon(
-            onPressed: _simularSubida,
-            icon: const Icon(Icons.trending_up),
-            label: const Text('Simular subida do rio'),
-          ),
+        ElevatedButton.icon(
+          onPressed: _simularSubida,
+          icon: const Icon(Icons.trending_up),
+          label: const Text('Simular subida do rio'),
         ),
-        const SizedBox(width: AppTheme.espacoP),
-        Expanded(
-          flex: 2,
-          child: OutlinedButton(
-            onPressed: _reiniciarSimulacao,
-            child: const Text(
-              'Reiniciar simulação',
-              textAlign: TextAlign.center,
-            ),
-          ),
+        const SizedBox(height: AppTheme.espacoP),
+        OutlinedButton.icon(
+          onPressed: _reiniciarSimulacao,
+          icon: const Icon(Icons.restart_alt),
+          label: const Text('Reiniciar simulação'),
         ),
       ],
     );
