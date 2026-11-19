@@ -27,10 +27,8 @@ class TelaBoasVindas extends StatelessWidget {
                     const SizedBox(height: AppTheme.espacoM),
                     Text(
                       'GuardaRio',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                            fontSize: 32,
-                            color: AppTheme.azul,
-                          ),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontSize: 32, color: AppTheme.azul),
                     ),
                     const SizedBox(height: AppTheme.espacoP),
                     Text(

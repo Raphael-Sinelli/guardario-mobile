@@ -64,7 +64,8 @@ List<Alerta> criarAlertasAntigos() {
       id: 3,
       nivel: NivelRisco.alerta,
       area: 'Jardim Pantanal',
-      mensagem: 'Rio Tietê passou da cota de alerta na Ponte da Rua Capachós. '
+      mensagem:
+          'Rio Tietê passou da cota de alerta na Ponte da Rua Capachós. '
           'Prepare a saída.',
       criadoEm: DateTime(2026, 10, 27, 18, 5),
       ativo: false,
@@ -74,7 +75,8 @@ List<Alerta> criarAlertasAntigos() {
       id: 2,
       nivel: NivelRisco.emergencia,
       area: 'Jardim Pantanal',
-      mensagem: 'Rio Tietê passou da cota de transbordo na Ponte da Rua '
+      mensagem:
+          'Rio Tietê passou da cota de transbordo na Ponte da Rua '
           'Capachós. Saia de casa agora.',
       criadoEm: DateTime(2026, 3, 3, 5, 10),
       ativo: false,
@@ -84,7 +86,8 @@ List<Alerta> criarAlertasAntigos() {
       id: 1,
       nivel: NivelRisco.alerta,
       area: 'Jardim Pantanal',
-      mensagem: 'Rio Tietê passou da cota de alerta na Ponte da Rua Capachós. '
+      mensagem:
+          'Rio Tietê passou da cota de alerta na Ponte da Rua Capachós. '
           'Prepare a saída.',
       criadoEm: DateTime(2026, 2, 12, 17, 40),
       ativo: false,
@@ -151,7 +154,8 @@ List<Relato> criarRelatos() {
     Relato(
       tipo: TipoRelato.bueiroEntupido,
       bairro: 'Jardim Pantanal',
-      descricao: 'Bueiro da rua principal entupido de lixo. A água não escoava '
+      descricao:
+          'Bueiro da rua principal entupido de lixo. A água não escoava '
           'depois da chuva.',
       pessoasEmRisco: false,
       prioridade: 2,
