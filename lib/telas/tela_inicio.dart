@@ -9,6 +9,7 @@ import '../theme/app_theme.dart';
 import '../widgets/dialogo_login.dart';
 import '../widgets/selo_risco.dart';
 import 'tela_detalhe_alerta.dart';
+import 'tela_meus_relatos.dart';
 import 'tela_novo_relato.dart';
 
 // Tela inicial: nível do rio, alerta ativo, atalhos e a simulação de subida.
@@ -375,7 +376,12 @@ class _TelaInicioState extends State<TelaInicio> {
       childAspectRatio: 1.1,
       children: [
         _atalho(Icons.edit_note, 'Novo relato', _novoRelato),
-        _atalho(Icons.list_alt, 'Meus relatos', _emBreve),
+        _atalho(Icons.list_alt, 'Meus relatos', () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TelaMeusRelatos()),
+          );
+        }),
         _atalho(Icons.medical_services_outlined, 'Kit de emergência', _emBreve),
         _atalho(Icons.night_shelter, 'Abrigos', () {
           widget.irParaAba(2);
