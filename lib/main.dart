@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'telas/tela_boas_vindas.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -15,9 +16,7 @@ class GuardaRioApp extends StatelessWidget {
       title: 'GuardaRio',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.tema(),
-      home: const Scaffold(
-        body: Center(child: Text('GuardaRio')),
-      ),
+      home: const TelaBoasVindas(),
     );
   }
 }
