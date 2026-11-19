@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import '../models/alerta.dart';
 import '../models/nivel_risco.dart';
+import '../models/relato.dart';
 import '../regras/regras_risco.dart';
 import '../theme/app_theme.dart';
+import '../widgets/dialogo_login.dart';
 import '../widgets/selo_risco.dart';
 import 'tela_detalhe_alerta.dart';
+import 'tela_novo_relato.dart';
 
 // Tela inicial: nível do rio, alerta ativo, atalhos e a simulação de subida.
 class TelaInicio extends StatefulWidget {
@@ -86,6 +89,35 @@ class _TelaInicioState extends State<TelaInicio> {
     setState(() {
       reiniciarSimulacao();
     });
+  }
+
+  Future<void> _novoRelato() async {
+    // Quem entrou sem conta recebe um aviso com o botão para o login
+    if (usuarioLogado == null) {
+      mostrarDialogoExigeLogin(context);
+      return;
+    }
+
+    // await espera o formulário fechar. O que ele devolve com Navigator.pop
+    // chega aqui, ou null se a pessoa voltou sem enviar.
+    final Relato? relato = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const TelaNovoRelato()),
+    );
+
+    if (relato == null || !mounted) {
+      return;
+    }
+
+    setState(() {
+      relatos.insert(0, relato);
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Relato enviado. Prioridade ${relato.prioridade} de 5.'),
+        backgroundColor: AppTheme.corNormal,
+      ),
+    );
   }
 
   void _emBreve() {
@@ -342,7 +374,7 @@ class _TelaInicioState extends State<TelaInicio> {
       crossAxisSpacing: AppTheme.espacoM,
       childAspectRatio: 1.1,
       children: [
-        _atalho(Icons.edit_note, 'Novo relato', _emBreve),
+        _atalho(Icons.edit_note, 'Novo relato', _novoRelato),
         _atalho(Icons.list_alt, 'Meus relatos', _emBreve),
         _atalho(Icons.medical_services_outlined, 'Kit de emergência', _emBreve),
         _atalho(Icons.night_shelter, 'Abrigos', () {
