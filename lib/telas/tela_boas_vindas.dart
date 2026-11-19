@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../data/mock_data.dart';
 import '../theme/app_theme.dart';
+import 'casca_navegacao.dart';
 import 'tela_login.dart';
 
 // Primeira tela: logo e as duas formas de entrar no app.
-// O botão "Continuar sem conta" ainda não navega: a casca de navegação entra
-// no próximo commit.
 class TelaBoasVindas extends StatelessWidget {
   const TelaBoasVindas({super.key});
 
@@ -52,7 +52,16 @@ class TelaBoasVindas extends StatelessWidget {
               ),
               const SizedBox(height: AppTheme.espacoM),
               OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Sem conta: alertas, abrigos e nível do rio continuam abertos
+                  usuarioLogado = null;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CascaNavegacao(),
+                    ),
+                  );
+                },
                 child: const Text('Continuar sem conta'),
               ),
             ],

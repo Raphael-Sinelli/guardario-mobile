@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/mock_data.dart';
 import '../theme/app_theme.dart';
+import 'casca_navegacao.dart';
 
 // Login com e-mail e senha. O usuário de teste está em mock_data.dart.
 class TelaLogin extends StatefulWidget {
@@ -68,7 +69,12 @@ class _TelaLoginState extends State<TelaLogin> {
           backgroundColor: AppTheme.corNormal,
         ),
       );
-      // A ida para a tela principal entra no commit da casca de navegação
+      // Troca a pilha de telas: o botão voltar não leva de novo ao login
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const CascaNavegacao()),
+        (rota) => rota.isFirst,
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
