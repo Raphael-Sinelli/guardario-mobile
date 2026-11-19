@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import '../data/mock_data.dart';
 import '../models/abrigo.dart';
 import '../theme/app_theme.dart';
-import '../widgets/etiqueta.dart';
+import '../widgets/etiquetas_do_abrigo.dart';
+import 'tela_detalhe_abrigo.dart';
 
 // Lista de abrigos com filtros e favoritos. O estado dos filtros e dos
 // favoritos muda com setState.
@@ -161,99 +162,72 @@ class _TelaAbrigosState extends State<TelaAbrigos> {
 
   Widget _cartaoDoAbrigo(Abrigo abrigo) {
     return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.espacoM),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    abrigo.nome,
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(abrigo.endereco),
-                  const SizedBox(height: AppTheme.espacoP),
-                  Wrap(
-                    spacing: AppTheme.espacoP,
-                    runSpacing: AppTheme.espacoP,
-                    children: [
-                      _etiquetaDeStatus(abrigo),
-                      _etiquetaDePets(abrigo),
-                      _etiquetaDePcd(abrigo),
-                    ],
-                  ),
-                  const SizedBox(height: AppTheme.espacoP),
-                  Text(
-                    abrigo.lotado
-                        ? 'Sem vagas (${abrigo.capacidade} de ${abrigo.capacidade})'
-                        : '${abrigo.vagas} vagas livres de ${abrigo.capacidade}',
-                  ),
-                ],
-              ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppTheme.raioCard),
+        // Toque no card abre o detalhe e passa o abrigo para a nova tela
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TelaDetalheAbrigo(abrigo: abrigo),
             ),
-            IconButton(
-              tooltip: abrigo.favorito
-                  ? 'Tirar dos favoritos'
-                  : 'Adicionar aos favoritos',
-              iconSize: 32,
-              icon: Icon(
-                abrigo.favorito ? Icons.star : Icons.star_border,
-                color: abrigo.favorito
-                    ? const Color(0xFFF9A825)
-                    : const Color(0xFF546E7A),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.espacoM),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      abrigo.nome,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(abrigo.endereco),
+                    const SizedBox(height: AppTheme.espacoP),
+                    Wrap(
+                      spacing: AppTheme.espacoP,
+                      runSpacing: AppTheme.espacoP,
+                      children: [
+                        etiquetaDeStatus(abrigo),
+                        etiquetaDePets(abrigo),
+                        etiquetaDePcd(abrigo),
+                      ],
+                    ),
+                    const SizedBox(height: AppTheme.espacoP),
+                    Text(
+                      abrigo.lotado
+                          ? 'Sem vagas (${abrigo.capacidade} de ${abrigo.capacidade})'
+                          : '${abrigo.vagas} vagas livres de ${abrigo.capacidade}',
+                    ),
+                  ],
+                ),
               ),
-              onPressed: () {
-                setState(() {
-                  abrigo.favorito = !abrigo.favorito;
-                });
-              },
-            ),
-          ],
+              IconButton(
+                tooltip: abrigo.favorito
+                    ? 'Tirar dos favoritos'
+                    : 'Adicionar aos favoritos',
+                iconSize: 32,
+                icon: Icon(
+                  abrigo.favorito ? Icons.star : Icons.star_border,
+                  color: abrigo.favorito
+                      ? const Color(0xFFF9A825)
+                      : const Color(0xFF546E7A),
+                ),
+                onPressed: () {
+                  setState(() {
+                    abrigo.favorito = !abrigo.favorito;
+                  });
+                },
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-
-  Widget _etiquetaDeStatus(Abrigo abrigo) {
-    if (abrigo.lotado) {
-      return const Etiqueta(
-        texto: 'LOTADO',
-        icone: Icons.block,
-        cor: AppTheme.corEmergencia,
-        corTexto: Colors.white,
-      );
-    }
-    return const Etiqueta(
-      texto: 'ABERTO',
-      icone: Icons.check_circle,
-      cor: AppTheme.corNormal,
-      corTexto: Colors.white,
-    );
-  }
-
-  Widget _etiquetaDePets(Abrigo abrigo) {
-    return Etiqueta(
-      texto: abrigo.aceitaPets ? 'Aceita pets' : 'Não aceita pets',
-      icone: abrigo.aceitaPets ? Icons.pets : Icons.do_not_disturb_alt,
-      cor: abrigo.aceitaPets
-          ? const Color(0xFFD6EAF7)
-          : const Color(0xFFECEFF1),
-      corTexto: const Color(0xFF263238),
-    );
-  }
-
-  Widget _etiquetaDePcd(Abrigo abrigo) {
-    return Etiqueta(
-      texto: abrigo.acessivelPcd ? 'Acessível PcD' : 'Sem acessibilidade',
-      icone: abrigo.acessivelPcd ? Icons.accessible : Icons.not_accessible,
-      cor: abrigo.acessivelPcd
-          ? const Color(0xFFD6EAF7)
-          : const Color(0xFFECEFF1),
-      corTexto: const Color(0xFF263238),
     );
   }
 }
