@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'tela_abrigos.dart';
 import 'tela_alertas.dart';
 import 'tela_inicio.dart';
 
 // Casca do app: guarda qual aba está aberta e mostra a BottomNavigationBar.
-// As abas Abrigos e Perfil ainda são provisórias; as telas reais entram nos
-// próximos commits.
+// A aba Perfil ainda é provisória; a tela real entra num próximo commit.
 class CascaNavegacao extends StatefulWidget {
   const CascaNavegacao({super.key});
 
@@ -27,7 +27,7 @@ class _CascaNavegacaoState extends State<CascaNavegacao> {
     final abas = [
       TelaInicio(irParaAba: _trocarAba),
       const TelaAlertas(),
-      const _AbaProvisoria(titulo: 'Abrigos'),
+      const TelaAbrigos(),
       const _AbaProvisoria(titulo: 'Perfil'),
     ];
 
