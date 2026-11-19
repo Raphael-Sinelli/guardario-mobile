@@ -6,6 +6,7 @@ import '../models/nivel_risco.dart';
 import '../regras/regras_risco.dart';
 import '../theme/app_theme.dart';
 import '../widgets/selo_risco.dart';
+import 'tela_detalhe_alerta.dart';
 
 // Tela inicial: nível do rio, alerta ativo, atalhos e a simulação de subida.
 class TelaInicio extends StatefulWidget {
@@ -61,7 +62,10 @@ class _TelaInicioState extends State<TelaInicio> {
                 child: Text(
                   'Novo alerta: ${textoDoNivel(novoAlerta.nivel)} em '
                   '${novoAlerta.area}',
-                  style: TextStyle(color: corTexto, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: corTexto,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -219,7 +223,10 @@ class _TelaInicioState extends State<TelaInicio> {
   }
 
   Widget _trecho(int tamanho, Color cor) {
-    return Expanded(flex: tamanho, child: Container(height: 16, color: cor));
+    return Expanded(
+      flex: tamanho,
+      child: Container(height: 16, color: cor),
+    );
   }
 
   Widget _marca(int tamanho, String texto) {
@@ -245,7 +252,10 @@ class _TelaInicioState extends State<TelaInicio> {
           flex: 2,
           child: OutlinedButton(
             onPressed: _reiniciarSimulacao,
-            child: const Text('Reiniciar simulação', textAlign: TextAlign.center),
+            child: const Text(
+              'Reiniciar simulação',
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
       ],
@@ -279,30 +289,43 @@ class _TelaInicioState extends State<TelaInicio> {
     final corTexto = corTextoDoNivel(alerta.nivel);
     return Card(
       color: corDoNivel(alerta.nivel),
-      child: Padding(
-        padding: const EdgeInsets.all(AppTheme.espacoM),
-        child: Row(
-          children: [
-            Icon(iconeDoNivel(alerta.nivel), color: corTexto, size: 36),
-            const SizedBox(width: AppTheme.espacoM),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'ALERTA ATIVO: ${textoDoNivel(alerta.nivel)}',
-                    style: TextStyle(
-                      color: corTexto,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(alerta.mensagem, style: TextStyle(color: corTexto)),
-                ],
-              ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppTheme.raioCard),
+        // Toque no banner abre o detalhe e passa o alerta para a nova tela
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => TelaDetalheAlerta(alerta: alerta),
             ),
-          ],
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(AppTheme.espacoM),
+          child: Row(
+            children: [
+              Icon(iconeDoNivel(alerta.nivel), color: corTexto, size: 36),
+              const SizedBox(width: AppTheme.espacoM),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'ALERTA ATIVO: ${textoDoNivel(alerta.nivel)}',
+                      style: TextStyle(
+                        color: corTexto,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(alerta.mensagem, style: TextStyle(color: corTexto)),
+                  ],
+                ),
+              ),
+              Icon(Icons.chevron_right, color: corTexto),
+            ],
+          ),
         ),
       ),
     );
@@ -344,7 +367,10 @@ class _TelaInicioState extends State<TelaInicio> {
               Text(
                 texto,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
