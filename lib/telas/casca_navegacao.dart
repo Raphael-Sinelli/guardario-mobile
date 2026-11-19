@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'tela_abrigos.dart';
 import 'tela_alertas.dart';
 import 'tela_inicio.dart';
+import 'tela_perfil.dart';
 
 // Casca do app: guarda qual aba está aberta e mostra a BottomNavigationBar.
-// A aba Perfil ainda é provisória; a tela real entra num próximo commit.
 class CascaNavegacao extends StatefulWidget {
   const CascaNavegacao({super.key});
 
@@ -24,11 +24,12 @@ class _CascaNavegacaoState extends State<CascaNavegacao> {
 
   @override
   Widget build(BuildContext context) {
+    // Uma tela para cada item da barra, na mesma ordem
     final abas = [
       TelaInicio(irParaAba: _trocarAba),
       const TelaAlertas(),
       const TelaAbrigos(),
-      const _AbaProvisoria(titulo: 'Perfil'),
+      const TelaPerfil(),
     ];
 
     return Scaffold(
@@ -59,20 +60,6 @@ class _CascaNavegacaoState extends State<CascaNavegacao> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _AbaProvisoria extends StatelessWidget {
-  final String titulo;
-
-  const _AbaProvisoria({required this.titulo});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text(titulo), automaticallyImplyLeading: false),
-      body: Center(child: Text('Tela $titulo em construção')),
     );
   }
 }
